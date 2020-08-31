@@ -1,0 +1,127 @@
+﻿@model MoneyTransfer.Models.Transfer
+
+@{
+    ViewBag.Title = "Transfer Bani";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        const inputAmount = document.querySelector('#Amount');
+        const inputDestinationAmount = document.querySelector('#DestinationAmount');
+        const selectCurrency = document.querySelector('#Currency');
+        const selectDestinationCurrency = document.querySelector('#DestinationCurrency');
+        const inputIBAN = document.querySelectorAll('#IBAN')[0];
+
+        inputAmount.addEventListener('change', updateValue);
+        selectCurrency.addEventListener('change', updateValue);
+        selectDestinationCurrency.addEventListener('change', updateValue);
+        inputIBAN.addEventListener('change', updateValue);
+
+        function updateValue(e) {
+            $.ajax(
+            {
+                type: 'POST',
+                dataType: 'JSON',
+                    url: '@Url.Action("updateValue", "Transfer")',
+                    data: { inputAmount: inputAmount.value, selectCurrency: selectCurrency.value, selectDestinationCurrency: selectDestinationCurrency.value, inputIBAN: inputIBAN.value },
+                success:
+                    function (response) {
+                        response = response.replace(".", ",");
+                        inputDestinationAmount.value = response;
+                        $("#DestinationAmountID").val(response);
+                    },
+                error:
+                    function (response) {
+                        alert("Error: " + response);
+                    }
+            });
+        }
+    </script>
+}
+
+@using (Html.BeginForm())
+ {
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h2>Transfer Bani</h2>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.CNP, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CNP, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CNP, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IBAN, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.IBAN, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.IBAN, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Currency, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.EditorFor(model => model.Currency, new { htmlAttributes = new { @class = "form-control" } })*@
+            @Html.DropDownListFor(model => model.Currency, Model.Currencies, new { @class = "form-control" })
+            @*@Html.ValidationMessageFor(model => model.Currency, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DestinationCurrency, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.EditorFor(model => model.DestinationCurrency, new { htmlAttributes = new { @class = "form-control" } })*@
+            @Html.DropDownListFor(model => model.DestinationCurrency, Model.Currencies, new { @class = "form-control" })
+            @*@Html.ValidationMessageFor(model => model.DestinationCurrency, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DestinationAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DestinationAmount, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+            @*@Html.ValidationMessageFor(model => model.DestinationAmount, "", new { @class = "text-danger" })*@
+            @Html.HiddenFor(model => model.DestinationAmount, new { id = "DestinationAmountID" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.CheckBoxFor(model => model.isAdult)
+            @Html.LabelFor(model => model.isAdult, htmlAttributes: new { @class = "control-label" })
+            @Html.ValidationMessageFor(model => model.isAdult, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.CheckBoxFor(model => model.isApproved)
+            @Html.LabelFor(model => model.isApproved, htmlAttributes: new { @class = "control-label" })
+            @Html.ValidationMessageFor(model => model.isApproved, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+ }

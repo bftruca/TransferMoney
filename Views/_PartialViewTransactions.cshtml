@@ -1,0 +1,72 @@
+﻿@model IEnumerable<MoneyTransfer.Models.Transaction>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Token)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CNP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IBAN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Currency)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DestinationAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DestinationCurrency)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Token)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CNP)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IBAN)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Amount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Currency)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DestinationAmount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DestinationCurrency)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Status)
+    </td>
+
+    @{
+        var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+        if (controllerName.Equals("Home"))
+        {
+            <td>
+                @Html.ActionLink("Renew Token", "NewToken", new { id = item.TransferId }) |
+                @Html.ActionLink("Change status", "ChangeStatus", new { id = item.TransferId })
+            </td>
+        }
+    }
+</tr>
+}
+</table>

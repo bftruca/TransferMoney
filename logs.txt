@@ -1,0 +1,4 @@
+29.08.2020 06:13: test test test
+30.08.2020 18:01: Data.RenewToken(): Procedure or function GetTransactionsByUserName has too many arguments specified.
+31.08.2020 08:27: CheckIBAN.Check(): Error converting value 404 to type 'MoneyTransfer.DataLayer.API.Models.IBAN'. Path '', line 1, position 3.
+31.08.2020 10:11: Data.ChangeStatus(): Procedure or function ChangeStatus has too many arguments specified.

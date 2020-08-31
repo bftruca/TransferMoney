@@ -1,0 +1,8 @@
+﻿@model IEnumerable<MoneyTransfer.Models.Transaction>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+@Html.Partial("~/Views/_PartialViewTransactions.cshtml", Model)
