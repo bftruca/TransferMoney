@@ -13,9 +13,9 @@ Details like CNP (ID of a Romanian identity card), IBAN (International Bank Acco
 - for CNP, i used a custom validation that inheritance ValidationAttribute
 - for IBAN i used an API : https://openiban.com
 - and for currencies i also used an API : https://exchangeratesapi.io
-- there is also custom taxes and commissions . If the country of the bank where you want to transfer it's not in UE, you have 2% commission (by checking first two letter of the IBAN)
+- there are also custom taxes and commissions . If the country of the bank where you want to transfer it's not in UE, you have 2% commission (by checking first two letter of the IBAN)
 - Taxes and comission are calculated on server side, using an Ajax Request and it fills the receicer's amount .
-- after a transaction it's finished, it's automatically generated a token for that transaction *
+- after a transaction is finished, it automatically generated a token for that transaction *
 
 4.) A check page, where you can check a transaction by using the CNP and Token .
 
